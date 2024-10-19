@@ -1,0 +1,47 @@
+{
+  "name": "server",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/server/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/server",
+        "main": "apps/server/src/main.ts",
+        "tsConfig": "apps/server/tsconfig.app.json",
+        "assets": ["apps/server/src/assets"],
+        "webpackConfig": "apps/server/webpack.config.js"
+      },
+      "configurations": {
+        "development": {
+          "optimization": false,
+          "sourceMap": true
+        },
+        "production": {
+          "optimization": true,
+          "sourceMap": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "server:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "server:build:development"
+        },
+        "production": {
+          "buildTarget": "server:build:production"
+        }
+      }
+    }
+  }
+}

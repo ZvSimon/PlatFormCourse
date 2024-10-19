@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id        Int      @id @default(autoincrement())  // Clé primaire auto-incrémentée
+  email     String   @unique                       // Email unique
+  username  String
+  bio       String   @default("")                  // Bio par défaut vide
+  image     String   @default("")                  // Image par défaut vide
+  password  String                                 // Mot de passe haché
+  createdAt DateTime @default(now())               // Date de création automatique
+  updatedAt DateTime @updatedAt                    // Date de mise à jour automatique
+}
+
